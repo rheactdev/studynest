@@ -7,7 +7,7 @@ import {
 export default function Example() {
   return (
     <SidebarProvider>
-      <Sidebar>
+      <Sidebar >
         <SidebarHeader>Logo</SidebarHeader>
         <SidebarContent>
           <SidebarItem icon={<Home />}>Home</SidebarItem>

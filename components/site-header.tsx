@@ -6,6 +6,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, Moon, Sun, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Breadcrumb, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "./ui/breadcrumb";
+import { AppBreadcrumb } from "./AppBreadcrumb";
 
 interface NavItem {
   href: string;
@@ -54,27 +56,7 @@ export function SiteHeader() {
         </Link>
 
         <nav className="hidden items-center lg:flex" aria-label="Main navigation">
-          {navItems.map((item) => {
-            const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
-
-            return (
-              <Link
-                key={item.href}
-                className={cn(
-                  "relative flex h-14 items-center px-3 text-sm font-bold tracking-wide transition-colors duration-150",
-                  isActive
-                    ? "text-primary hover:text-primary"
-                    : "text-foreground/70 hover:text-foreground",
-                )}
-                href={item.href}
-              >
-                {item.label}
-                {isActive ? (
-                  <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-primary" />
-                ) : null}
-              </Link>
-            );
-          })}
+          <AppBreadcrumb />
         </nav>
 
         <div className="flex items-center gap-1.5">

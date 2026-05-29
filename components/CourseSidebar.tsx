@@ -4,17 +4,19 @@ import {
     SidebarGroup,
     SidebarGroupLabel
 } from '@/components/ui/sidebar'
-import { Home, Settings } from 'lucide-react'
+import { CirclePlay, Home, PlayCircleIcon, Settings } from 'lucide-react'
 
 import type { AttachmentRecord, CourseRecord, LessonRecord, SectionRecord } from "@/lib/server/types";
 import { SerializedAttachment, SerializedCourse, SerializedProgress } from '@/lib/server/serialize';
 // import { useRouter } from 'next/navigation';
 import { SidebarLink } from './SidebarLink';
+import { Button } from './ui/button';
+import { CourseSidebarAccordion } from './SidebarAccordianGroup';
 
 
 interface CourseSidebarProps {
     courseName: string;
-    course?: SerializedCourse;
+    course: SerializedCourse;
     sections: SectionRecord[];
     lessons: LessonRecord[];
     selectedLesson?: LessonRecord;
@@ -26,25 +28,31 @@ export default function CourseSidebar({ courseName, sections, lessons, selectedL
     // const router = useRouter();
     return (
         <SidebarProvider>
-            <Sidebar>
+
+            <SidebarInset>
+                {children}
+            </SidebarInset>
+            <Sidebar side="right" className=''>
                 {/* <SidebarHeader>{courseName}</SidebarHeader> */}
-                <SidebarContent>
-                    {sections.map((section) => {
+                <SidebarContent className='p-0'>
+                    <CourseSidebarAccordion sections={sections} lessons={lessons} courseSlug={course.slug} selectedLessonId={selectedLesson?.id}></CourseSidebarAccordion>
+                    {/* {sections.map((section) => {
                         const sectionLessons = lessons.filter((lesson) => lesson.section_id === section.id);
                         return <SidebarGroup key={section.id}>
                             <SidebarGroupLabel>{section.section_index} {section.title}</SidebarGroupLabel>
                             {sectionLessons.map((lesson) => {
                                 const isSelected = selectedLesson?.id === lesson.id;
-                                return <SidebarLink key={lesson.id} href={`/courses/${course?.slug}?lesson=${lesson.id}`} className={isSelected ? "bg-primary text-primary-foreground hover:bg-primary" : "bg-background"}><span className='block w-full whitespace-normal break-words text-left'>{lesson.title}
-                                </span></SidebarLink>
+                                const className = isSelected ? "bg-primary text-primary-foreground hover:bg-primary" : "bg-background";
+                                return <span>
+                                    <SidebarLink key={lesson.id} href={`/courses/${course?.slug}?lesson=${lesson.id}`} className={`gap-2 ${className}`} trailingIcon={<CirclePlay/>}>
+                                        <span>{lesson.title}</span>
+                                    </SidebarLink>
+                                </span>
                             })}
                         </SidebarGroup>
-                    })}
+                    })} */}
                 </SidebarContent>
             </Sidebar>
-            <SidebarInset>
-                {children}
-            </SidebarInset>
         </SidebarProvider>
     )
 }
