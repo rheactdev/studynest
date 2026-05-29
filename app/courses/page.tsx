@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { BookOpen, ImageIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { getDb } from "@/lib/server/db";
 import { serializeCourse } from "@/lib/server/serialize";
 import type { CourseRecord } from "@/lib/server/types";
@@ -40,10 +40,10 @@ export default function CoursesPage() {
   const courses = getCourses();
 
   return (
-    <main className="flex-1">
-      <div className="grid-pattern absolute inset-0 opacity-20"></div>
-      <section className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
-        
+    <main className="relative isolate flex-1 overflow-hidden bg-background">
+      <div className="grid-pattern pointer-events-none absolute inset-0 z-0 opacity-20"></div>
+      <section className="relative z-10 container mx-auto px-4 py-6 sm:px-6 lg:px-8">
+
         <div className="mb-6 flex flex-col gap-3 pb-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="mt-2 font-black uppercase text-4xl font-semibold leading-none tracking-normal">
@@ -71,7 +71,11 @@ export default function CoursesPage() {
                   key={course.id}
                 >
                   <Card className="min-h-[26rem] bg-card" interactive>
-                    <CardContent className="flex h-full flex-col p-4">
+                    {/* <CardHeader>
+                      <CardTitle>{course.creator || "Unknown"}</CardTitle>
+                      <CardDescription>{course.courseName}</CardDescription>
+                    </CardHeader> */}
+                    <CardContent>
                       <div className="relative mb-4 flex aspect-[4/3] items-center justify-center border-foreground bg-muted">
                         {course.coverPath ? (
                           <Image
@@ -88,16 +92,16 @@ export default function CoursesPage() {
                         )}
                       </div>
 
-                      <div className="space-y-2">
+                      {/* <div className="space-y-2">
                         <h3 className="text-xl font-bold uppercase tracking-wide leading-none">
                           {truncateTitle(course.courseName)}
                         </h3>
                         <p className="text-base font-medium text-muted-foreground">
                           {course.creator || "Unknown creator"}
                         </p>
-                      </div>
+                      </div> */}
 
-                      <dl className="mt-4 grid grid-cols-3 border-3 border-foreground font-mono text-[0.7rem] font-bold uppercase">
+                      {/* <dl className="mt-4 grid grid-cols-3 border-3 border-foreground font-mono text-[0.7rem] font-bold uppercase">
                         <div className="border-r-3 border-foreground bg-primary p-2 text-primary-foreground">
                           <dt>Sections</dt>
                           <dd className="text-base">{row.sections_count}</dd>
@@ -110,9 +114,9 @@ export default function CoursesPage() {
                           <dt>Files</dt>
                           <dd className="text-base">{row.attachments_count}</dd>
                         </div>
-                      </dl>
+                      </dl> */}
 
-                      <div className="mt-auto flex flex-wrap gap-2 pt-6">
+                      {/* <div className="mt-auto flex flex-wrap gap-2 pt-6">
                         {fallbackTags.map((tag, index) => (
                           <Badge
                             key={`${course.id}-${tag}`}
@@ -121,8 +125,12 @@ export default function CoursesPage() {
                             {tag}
                           </Badge>
                         ))}
-                      </div>
+                      </div> */}
                     </CardContent>
+                    <CardHeader className="border-b-0 border-t-3">
+                      <CardTitle>{course.creator || "Unknown"}</CardTitle>
+                      <CardDescription>{course.courseName}</CardDescription>
+                    </CardHeader>
                   </Card>
                 </Link>
               );
