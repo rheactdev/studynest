@@ -7,6 +7,14 @@ import { serializeCourse } from '@/lib/server/serialize'
 import { parseTagsJson, uniqueTags, getGlobalTags } from '@/lib/server/tags'
 import type { CourseRecord } from '@/lib/server/types'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -45,7 +53,40 @@ export default function TagsPage() {
           <TabsContent value="tags">
             <GlobalTagManager initialTags={availableTags} />
           </TabsContent>
-          <TabsContent value="courses">Courses</TabsContent>
+          <TabsContent value="courses" className="mt-8">
+            <Card>
+              <CardContent className="p-0">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Course Name</TableHead>
+                      <TableHead>Tags</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {courses.map((course) => (
+                      <TableRow key={course.id}>
+                        <TableCell>{course.courseName}</TableCell>
+                        <TableCell>
+                          <CourseTagSelector
+                            availableTags={availableTags}
+                            courseSlug={course.slug}
+                            initialTags={course.tags}
+                            variant="plain"
+                          />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    {!courses.length && (
+                      <TableRow>
+                        <TableCell>No courses available</TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </TabsContent>
         </Tabs>
       </div>
     </main>
