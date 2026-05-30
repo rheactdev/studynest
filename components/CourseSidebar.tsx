@@ -1,6 +1,6 @@
 import { Sidebar, SidebarProvider, SidebarContent, SidebarInset } from '@/components/ui/sidebar'
 
-import type { LessonRecord, SectionRecord } from '@/lib/server/types'
+import type { AttachmentRecord, LessonRecord, SectionRecord } from '@/lib/server/types'
 import { SerializedCourse } from '@/lib/server/serialize'
 import { CourseSidebarAccordion } from './SidebarAccordianGroup'
 
@@ -12,6 +12,7 @@ interface CourseSidebarProps {
   selectedLesson?: LessonRecord
   completedLessonIds?: number[]
   children?: React.ReactNode
+  attachments?: AttachmentRecord[]
 }
 
 export default function CourseSidebar({
@@ -21,6 +22,7 @@ export default function CourseSidebar({
   course,
   completedLessonIds = [],
   children,
+  attachments,
 }: CourseSidebarProps) {
   return (
     <SidebarProvider className="h-[calc(100dvh-4rem)] min-h-0 overflow-hidden">
@@ -34,6 +36,7 @@ export default function CourseSidebar({
             courseSlug={course.slug}
             selectedLessonId={selectedLesson?.id}
             completedLessonIds={completedLessonIds}
+            attachments={attachments}
           />
         </SidebarContent>
       </Sidebar>

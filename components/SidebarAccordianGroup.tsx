@@ -6,8 +6,12 @@ import {
 } from '@/components/ui/accordion'
 
 import { cn } from '@/lib/utils'
-import { SidebarLink } from './SidebarLink'
+import { SidebarLink, SidebarRowLink } from './SidebarLink'
 import { Checkbox } from './ui/checkbox'
+import { Table, TableBody, TableCell, TableRow } from './ui/table'
+import Link from 'next/link'
+import SidebarCheckbox from './SidebarCheckbox'
+import { AttachmentRecord } from '@/lib/server/types'
 
 type Id = string | number
 
@@ -30,6 +34,7 @@ type CourseSidebarAccordionProps = {
   selectedLessonId?: Id
   completedLessonIds?: Id[]
   className?: string
+  attachments?: AttachmentRecord[]
 }
 
 export function CourseSidebarAccordion({
@@ -39,6 +44,7 @@ export function CourseSidebarAccordion({
   selectedLessonId,
   completedLessonIds = [],
   className,
+  attachments,
 }: CourseSidebarAccordionProps) {
   const completedLessonIdSet = new Set(completedLessonIds.map(String))
 
@@ -63,43 +69,83 @@ export function CourseSidebarAccordion({
               <span>{section.title}</span>
             </AccordionTrigger>
 
-            <AccordionContent className="space-y-1 p-2 first:pt-0 px-0 m-0">
-              {sectionLessons.map((lesson) => {
-                const isSelected = selectedLessonId === lesson.id
-                const isCompleted = completedLessonIdSet.has(String(lesson.id))
+            <AccordionContent className="first:pt-0 px-0 m-0 last:pb-0">
+              <ul className="overflow-hidden rounded-md border border-muted">
+                {sectionLessons.map((lesson) => {
+                  const href = `/courses/${courseSlug}?lesson=${lesson.id}`
+                  const isSelected = selectedLessonId === lesson.id
+                  const isCompleted = completedLessonIdSet.has(String(lesson.id))
+                  const lessonAttachments = attachments?.filter(
+                    (cur) => cur.lesson_id === lesson.id,
+                  )
+                  return (
+                    <SidebarRowLink
+                      key={lesson.id}
+                      href={href}
+                      isSelected={isSelected}
+                      isCompleted={isCompleted}
+                      title={lesson.title}
+                      attachments={lessonAttachments}
+                    />
+                  )
+                })}
+              </ul>
+              {/* <Table className="border-0">
+                <TableBody className="border-0">
+                  {sectionLessons.map((lesson) => {
+                    const isSelected = selectedLessonId === lesson.id
+                    const isCompleted = completedLessonIdSet.has(String(lesson.id))
+                    const href = `/courses/${courseSlug}?lesson=${lesson.id}`
 
-                return (
-                  <SidebarLink
-                    key={lesson.id}
-                    href={`/courses/${courseSlug}?lesson=${lesson.id}`}
-                    className={cn(
-                      'gap-2 p-3 m-0',
-                      isCompleted
-                        ? 'text-muted-foreground'
-                        : isSelected
-                          ? 'bg-primary text-primary-foreground hover:bg-primary'
-                          : 'bg-background',
-                    )}
-                    trailingIcon={
-                      isCompleted ? (
-                        <Checkbox
-                          disabled
-                          checked={true}
-                          className="h-5 w-5 hover:translate-x-0 hover:translate-y-0 shadow-none align-middle"
-                        />
-                      ) : (
-                        <Checkbox
-                          disabled
-                          checked={false}
-                          className="h-5 w-5 hover:translate-x-0 hover:translate-y-0 shadow-none align-middle"
-                        />
-                      )
-                    }
-                  >
-                    {lesson.title}
-                  </SidebarLink>
-                )
-              })}
+                    return (
+                      <TableRow key={lesson.id} className="border-2 border-muted">
+                        <TableCell className="border-r-2 border-muted p-0">
+                          <Link href={href}>
+                            <SidebarCheckbox isCompleted={isCompleted} isSelected={isSelected} />
+                          </Link>
+                        </TableCell>
+                        <TableCell className="p-0 relative p-0">
+                          <Link href={href} className="absolute inset-0 z-10" />
+                          <span>{lesson.title}</span>
+                        </TableCell>
+                      </TableRow>
+                    )
+
+                    // return (
+                    //   <SidebarLink
+                    //     key={lesson.id}
+                    //     href={`/courses/${courseSlug}?lesson=${lesson.id}`}
+                    //     className={cn(
+                    //       'gap-2 m-0 align-middle',
+                    //       isSelected
+                    //         ? 'bg-primary text-primary-foreground hover:bg-primary'
+                    //         : isCompleted && 'text-muted-foreground',
+                    //     )}
+                    //     trailingIcon={
+                    //       isCompleted ? (
+                    //         <Checkbox
+                    //           disabled
+                    //           checked={true}
+                    //           className={cn(
+                    //             'h-5 w-5 hover:translate-x-0 hover:translate-y-0 shadow-none',
+                    //             isSelected && 'disabled:opacity-100',
+                    //           )}
+                    //         />
+                    //       ) : (
+                    //         <Checkbox
+                    //           disabled
+                    //           checked={false}
+                    //           className="border-2 hover:translate-x-0 hover:translate-y-0 shadow-none align-middle disabled:opacity-100"
+                    //         />
+                    //       )
+                    //     }
+                    //   >
+                    //     {lesson.title}
+                    //   </SidebarLink>
+                    // )
+                  })}
+                </TableBody>
+              </Table> */}
             </AccordionContent>
           </AccordionItem>
         )

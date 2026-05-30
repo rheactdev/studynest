@@ -124,6 +124,7 @@ export default async function CoursePage({ params, searchParams }: CoursePagePro
         lessons={lessons}
         selectedLesson={selectedLesson}
         completedLessonIds={completedLessonIds}
+        attachments={attachments}
       >
         <section className="container mx-auto">
           <section className="min-w-0">
