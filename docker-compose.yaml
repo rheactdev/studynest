@@ -1,0 +1,22 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    environment:
+      - SERVICE_URL_APP_3000
+      - NODE_ENV=production
+      - HOSTNAME=0.0.0.0
+      - PORT=3000
+      - COURSES_DIR=/app/courses
+      - DATA_DIR=/app/data
+      - DATABASE_PATH=/app/data/course-player.sqlite
+    volumes:
+      - type: bind
+        source: /mnt/filestash-files/studynest/courses
+        target: /app/courses
+        is_directory: true
+      - type: bind
+        source: /mnt/filestash-files/studynest/data
+        target: /app/data
+        is_directory: true
