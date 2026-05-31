@@ -43,7 +43,7 @@ export default function CoursesPage() {
   return (
     <main className="relative isolate flex-1 overflow-hidden bg-background">
       <div className="grid-pattern pointer-events-none absolute inset-0 z-0 opacity-20"></div>
-      <section className="relative z-10 container mx-auto px-4 py-6 sm:px-6 lg:px-8">
+      <section className="relative z-10 container mx-auto px-4 py-6 sm:px-6 lg:px-8 min-h-[85svh]">
         <div className="mb-6 flex flex-col gap-3 pb-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="mt-2 font-black uppercase text-4xl font-semibold leading-none tracking-normal">
